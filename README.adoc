@@ -1,0 +1,28 @@
+== Automation DSL Template for NodeJS
+
+
+This is a boilerplate template to use as a basis for building NodeJS applications using the pipeline workflow.
+
+The first step utilizes an automated action pull the repository contents. The repo contents are saved to the working directory of the workflow runner (i.e. container). With each successive step, the contents of the working directory are passed to the working directory of the container identified in the following step.
+
+The after repo checkout, the following steps are executed within the each of the specifed containers:
+  - install dependencies & build the application
+  - execute unit tests
+  - build the a docker container containing the production app, according to the Dockerfile at the root of this repo.
+
+
+== NodeJS Application
+
+In this template is a simple NodeJS express application.
+To start the server, run the following commands:
+
+1. Build application
+
+    npm run build
+
+2. Start the webserver by running the command
+
+    node index.js
+
+Once the server is started, navigate to http://localhost:3000
+
