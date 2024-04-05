@@ -1,0 +1,27 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: build
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  js-build:
+    steps:
+      - name: checkout
+        uses: cloudbees-io/checkout@v1
+      - name: get dependencies
+        uses: docker://node:21-alpine3.19
+        run: npm install
+      - name: build
+        uses: docker://node:21-alpine3.19
+        run: npm run build
+      - name: test
+        uses: docker://node:21-alpine3.19
+        run: npm run test
+      - name: scan
+        uses: cloudbees-io/sonarqube-bundled-sast-scan-code@v2
+        with:
+          language: LANGUAGE_JS
