@@ -1,0 +1,31 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: workflow
+name: node-app-build
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+jobs:
+  build:
+    steps:
+      - name: Echo
+        uses: docker://node:20.0-alpine3.16
+        run: |
+          echo "=============== Hello World from main ==============="
+      - name: Checkout source code
+        uses: cloudbees-io/checkout@v1
+      - name: Install dependencies & Build App
+        uses: docker://node:20.0-alpine3.16
+        run: >
+          echo "=============== Installing dependencies & Building App
+          ==============="
+
+          npm install
+
+          npm run build
+      - name: Execute Unit testing
+        uses: docker://node:20.0-alpine3.16
+        run: |
+          echo "=============== Executing Unit Tests ==============="
+          npm test
